@@ -1,7 +1,9 @@
 package com.example.viewpager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,12 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private OnboardingAdapter onboardingAdapter;
     private LinearLayout layoutOnboardingIndicators;
+    private MaterialButton buttonOnboardingAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         layoutOnboardingIndicators = findViewById(R.id.layoutOnboardingIndicators);
+        buttonOnboardingAction = findViewById(R.id.buttonOnboardingAction);
 
         setupOnboardingItems();
 
@@ -37,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 setCurrentOnboardingIndicator(position);
+            }
+        });
+
+        buttonOnboardingAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onboardingViewPager.getCurrentItem() + 1 < onboardingAdapter.getItemCount()) {
+                    onboardingViewPager.setCurrentItem(onboardingViewPager.getCurrentItem() + 1);
+                } else {
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    finish();
+                }
             }
         });
     }
@@ -58,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         OnboardingItem itemEatTogether = new OnboardingItem();
         itemEatTogether.setTitle("Eat Together");
         itemEatTogether.setTitle("Eat Alone");
-        itemEatTogether.setDescription("Enjoy your iftar and have great day. Don't forget to rate us.");
+        itemEatTogether.setDescription("Enjoy your iftar and have a great day. Don't forget to rate us.");
         itemEatTogether.setImage(R.drawable.chop);
 
         onboardingItems.add(itemPayOnline);
@@ -98,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
                         ContextCompat.getDrawable(getApplicationContext(), R.drawable.onboarding_indicator_inactive)
                 );
             }
+        }
+        if(index == onboardingAdapter.getItemCount()-1) {
+            buttonOnboardingAction.setText("Start");
+        } else {
+            buttonOnboardingAction.setText("Next");
         }
     }
 }
