@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         itemOnTheWay.setImage(R.drawable.talk);
 
         OnboardingItem itemEatTogether = new OnboardingItem();
-        itemEatTogether.setTitle("Eat Together");
+        itemEatTogether.setTitle("Eat Together and Enjoy");
         itemEatTogether.setTitle("Eat Alone");
         itemEatTogether.setDescription("Enjoy your iftar and have a great day. Don't forget to rate us.");
         itemEatTogether.setImage(R.drawable.chop);
